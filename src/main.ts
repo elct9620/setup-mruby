@@ -1,25 +1,21 @@
 import * as os from 'os'
 import * as path from 'path'
+import * as fs from 'fs'
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import * as io from '@actions/io'
-import * as toolCache from '@actions/tool-cache'
-
-const TOOLNAME = 'mruby'
+import * as cache from '@actions/cache'
 
 async function run(): Promise<void> {
   try {
-    let prefix
-
     const targetVersion: string = core.getInput('mruby-version')
-    const cachedPath = toolCache.find(TOOLNAME, targetVersion)
-    if (cachedPath) {
-      prefix = cachedPath
-    } else {
-      prefix = path.join(os.homedir(), '.rubies', `mruby-${targetVersion}`)
+    const cacheKey = `mruby-${targetVersion}`
+    const prefix = path.join(os.homedir(), '.rubies', `mruby-${targetVersion}`)
+    await cache.restoreCache([prefix], cacheKey)
 
+    if (!fs.existsSync(`{$prefix}/bin/mruby`)) {
       await installWithRubyBuild(targetVersion, prefix)
-      await toolCache.cacheDir(prefix, TOOLNAME, targetVersion)
+      await cache.saveCache([prefix], cacheKey)
     }
 
     core.addPath(`${prefix}/bin`)
