@@ -1,24 +1,16 @@
 import * as os from 'os'
 import * as path from 'path'
-import * as fs from 'fs'
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import * as io from '@actions/io'
-import * as cache from '@actions/cache'
 
 async function run(): Promise<void> {
   try {
     const targetVersion: string = core.getInput('mruby-version')
-    const cacheKey = `mruby-${targetVersion}`
     const prefix = path.join(os.homedir(), '.rubies', `mruby-${targetVersion}`)
-    await cache.restoreCache([prefix], cacheKey)
-
-    if (!fs.existsSync(`{$prefix}/bin/mruby`)) {
-      await installWithRubyBuild(targetVersion, prefix)
-      await cache.saveCache([prefix], cacheKey)
-    }
 
     core.addPath(`${prefix}/bin`)
+    await installWithRubyBuild(targetVersion, prefix)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
