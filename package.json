@@ -22,7 +22,7 @@
     "mruby",
     "setup"
   ],
-  "author": "",
+  "author": "Aotokitsuruya",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^2.0.3",
