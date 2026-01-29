@@ -1,7 +1,11 @@
 import * as process from 'process'
 import * as cp from 'child_process'
 import * as path from 'path'
+import {fileURLToPath} from 'url'
 import {expect, test} from '@jest/globals'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // shows how the runner will run a javascript action with env / stdout protocol
 test('test runs', () => {
