@@ -4,6 +4,11 @@ updates:
     directory: /
     schedule:
       interval: daily
+    groups:
+      # init/autobuild/analyze must move together; a partial upgrade fails the Analyze check.
+      codeql-action:
+        patterns:
+          - github/codeql-action*
     cooldown:
       default-days: 3
       semver-major-days: 7
@@ -13,6 +18,11 @@ updates:
     directory: /
     schedule:
       interval: daily
+    groups:
+      # eslint-plugin and parser share a monorepo version; upgrading one voids the other's PR.
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint/*"
     cooldown:
       default-days: 3
       semver-major-days: 7
