@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
+      interval: weekly
     groups:
       # init/autobuild/analyze must move together; a partial upgrade fails the Analyze check.
       codeql-action:
@@ -17,7 +17,7 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: daily
+      interval: weekly
     groups:
       # eslint-plugin and parser share a monorepo version; upgrading one voids the other's PR.
       typescript-eslint:
