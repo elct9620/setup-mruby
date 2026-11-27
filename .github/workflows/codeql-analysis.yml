@@ -23,7 +23,7 @@ jobs:
 
     # init and analyze read a shared config version, so both refs must move together.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4
+      uses: github/codeql-action/init@915412ff23e8b7659517e607487dbeae018f2934 # v4
       with:
         languages: javascript
         # dist/ is a generated bundle; scanning src/ keeps alerts on code we author.
